@@ -1,0 +1,37 @@
+import csv
+
+def f(file_name):
+    with open(file_name,'r') as csvfile:
+        datareader=csv.reader(csvfile,delimiter=',')
+        train_data=[]
+        for row in datareader:
+            train_data.append(row)
+        print(train_data)
+    return train_data
+
+attributes=['Sky','Temp','Humidity','Wind','Water','Forecast']
+print("Attributes =", attributes)
+attribute_len=len(attributes)
+print(attribute_len)
+
+data_set=f('enjoysport.csv')
+
+data_set
+
+hypothesis=['0']*attribute_len
+print("Initial hypothesis",hypothesis)
+
+for i in range(attribute_len):
+    hypothesis[i]=data_set[0][i]
+print("Initial hypothesis",hypothesis)   
+
+#find s algorithm
+
+for i in range(0,len(data_set)):
+    if data_set[i][attribute_len]=='Yes':
+        for j in range(0,attribute_len):
+            if data_set[i][j]!=hypothesis[j]:
+                hypothesis[j]='?'
+
+print("\n The Maximally Specific Hypothesis for a given Training Examples :\n")
+print(hypothesis)
