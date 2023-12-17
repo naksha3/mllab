@@ -1,0 +1,73 @@
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+data = pd.read_csv('tennis.csv')
+print("The first 5 Values of data is:\n", data.head())
+
+X=data.iloc[:,:-1]
+print("\nThe First 5 values of the train data is\n", X.head())
+Y=data.iloc[:,-1]
+print("\nThe First 5 values of train output is\n", Y.head())
+
+oute=LabelEncoder()
+data.outlook=oute.fit_transform(data.outlook)
+le_Temperature = LabelEncoder()
+X.Temperature = le_Temperature.fit_transform(X.temp)
+le_Humidity = LabelEncoder()
+X.Humidity = le_Humidity.fit_transform(X.humidity)
+le_Wind = LabelEncoder()
+X.Wind = le_Wind.fit_transform(X.windy)
+print("\nNow the Train data is\n", X.head())
+
+
+le_PlayTennis = LabelEncoder()
+Y = le_PlayTennis.fit_transform(Y)
+print(Y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.20)
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Create DataFrame from the provided data
+data = pd.DataFrame({
+    'outlook': ['sunny', 'sunny', 'overcast', 'rainy', 'rainy', 'rainy', 'overcast', 'sunny', 'sunny', 'rainy', 'sunny', 'overcast', 'overcast', 'rainy'],
+    'temp': ['hot', 'hot', 'hot', 'mild', 'cool', 'cool', 'cool', 'mild', 'cool', 'mild', 'mild', 'mild', 'hot', 'mild'],
+    'humidity': ['high', 'high', 'high', 'high', 'normal', 'normal', 'normal', 'high', 'normal', 'normal', 'normal', 'high', 'normal', 'high'],
+    'windy': [False, True, False, False, False, True, True, False, False, False, True, True, False, True],
+    'play': ['no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'no']
+})
+
+print("The first 5 Values of data are:\n", data.head())
+
+# Extract features (X) and target (y)
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+
+# Convert categorical variables to numerical form
+label_encoders = {}
+for column in X.columns:
+    le = LabelEncoder()
+    X[column] = le.fit_transform(X[column])
+    label_encoders[column] = le
+
+y = LabelEncoder().fit_transform(y)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+
+# Train a Gaussian Naive Bayes classifier
+classifier = GaussianNB()
+classifier.fit(X_train, y_train)
+
+# Evaluate the model
+y_pred = classifier.predict(X_test)
+accuracy = accuracy_score(y_pred, y_test)
+print("Accuracy is:", accuracy)
