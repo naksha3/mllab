@@ -19,5 +19,6 @@ model.fit(heart_disease, estimator=MaximumLikelihoodEstimator)
 
 from pgmpy.inference import VariableElimination
 HeartDisease_infer = VariableElimination(model)
+print(model.get_cpds('sex'))
 q = HeartDisease_infer.query(variables = ['heartdisease'],evidence = {'age':29,'sex' : 0,'fbs':1})
 print(q)
